@@ -20,8 +20,20 @@ class BurgerBuilder extends Component {
             cheese: 0,
             meat: 1
         },
-        totalPrice: 4
+        totalPrice: 4, 
+        purchaseable: true
 
+    }
+
+    updatePurchaseState (ingredients) {
+
+        const sum = Object.keys(ingredients)
+        .map(igKey => {
+            return ingredients[igKey];
+        })
+        .reduce((sum,el) => (sum + el), 0);
+        this.setState ({purchasable: sum > 0});
+        console.log ('purchasable:' , sum );
     }
 
     addIngredientHandler = (type) => {
@@ -35,16 +47,18 @@ class BurgerBuilder extends Component {
         const newPrice = this.state.totalPrice + priceAddition;
         console.log ('add ', type, 'Price ', newPrice);
         this.setState ( {totalPrice: newPrice, ingredients: updatedIngredients});
+        this.updatePurchaseState(updatedIngredients);
     }
 
     removeIngredientHandler = (type) => {
-        var priceReduction = 0;
         const oldCount = this.state.ingredients[type];
-        var updatedCount = 0;
-        if (oldCount) {
-            updatedCount = oldCount -1;
-            priceReduction = INGREDIENT_PRICES[type];
+        if (oldCount <= 0) {
+            return;
         }
+        if (type === 'meat' && oldCount<= 1)
+            return;
+        var updatedCount = oldCount -1;
+        const priceReduction = INGREDIENT_PRICES[type];
         const updatedIngredients = {
             ...this.state.ingredients
         };
@@ -52,17 +66,28 @@ class BurgerBuilder extends Component {
         const newPrice = this.state.totalPrice - priceReduction;
         console.log ('add ', type, 'Price ', newPrice);
         this.setState ( {totalPrice: newPrice, ingredients: updatedIngredients});
-        
+        this.updatePurchaseState(updatedIngredients);
     }
 
     render () {
+        const disabledInfo = {
+            ...this.state.ingredients
+        };
+        for (let key in disabledInfo) {
+            disabledInfo[key]  = disabledInfo[key] <= (key === "meat" ? 1 : 0);
+        }
+        
+        console.log (disabledInfo);
+        console.log ('purchasable ', this.state.purchasable);
         return (
             <Aux>
                 <Burger ingredients = {this.state.ingredients }  />
                 <BuildControls 
                     ingredientAdded = {this.addIngredientHandler} 
                     ingredientRemoved = {this.removeIngredientHandler} 
-                    
+                    disabledInfo = {disabledInfo}
+                    purchasable = {this.state.purchaseable}
+                    price = {this.state.totalPrice}
                 />
             </Aux>
         )
