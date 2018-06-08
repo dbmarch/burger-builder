@@ -10,7 +10,7 @@ const controls = [
 ];
 
 const BuildControls = (props) => {
-    console.log (!props.purchasable);
+    //console.log (!props.purchasable);
 return <div className = {classes.BuildControls}> 
           <p> Current Price: <strong>${props.price.toFixed(2)}</strong> </p>
           {controls.map(ctrl => (

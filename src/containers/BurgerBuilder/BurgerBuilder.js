@@ -35,7 +35,7 @@ class BurgerBuilder extends Component {
         })
         .reduce((sum,el) => (sum + el), 0);
         this.setState ({purchasable: sum > 0});
-        console.log ('purchasable:' , sum );
+        //console.log ('purchasable:' , sum );
     }
 
     addIngredientHandler = (type) => {
@@ -93,8 +93,8 @@ class BurgerBuilder extends Component {
             disabledInfo[key]  = disabledInfo[key] <= (key === "meat" ? 1 : 0);
         }
         
-        console.log (disabledInfo);
-        console.log ('purchasable ', this.state.purchasable);
+        //console.log (disabledInfo);
+        //console.log ('purchasable ', this.state.purchasable);
         return (
             <Aux>
                 <Modal show= {this.state.purchasing} modalClosed = {this.purchaseCancelHandler}>
