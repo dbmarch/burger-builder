@@ -19,16 +19,20 @@ const INGREDIENT_PRICES = {
 class BurgerBuilder extends Component {
 
     state = {
-        ingredients: {
-            salad: 0,
-            bacon: 0,
-            cheese: 0,
-            meat: 1
-        },
+        ingredients: null,
         totalPrice: 4, 
         purchaseable: true,
         purchasing: false,
-        loading: false
+        loading: false,
+        error: false
+    }
+    componentDidMount () {
+        axios.get ('https://react-my-burger-7c36f.firebaseio.com/ingredients.json')
+            .then ( rsp => {
+                console.log (rsp);
+                this.setState({ingredients: rsp.data});
+            })
+            .catch( error => {this.setState({error: true})});
     }
 
     updatePurchaseState (ingredients) {
@@ -111,6 +115,12 @@ class BurgerBuilder extends Component {
 
 
     render () {
+        if (this.state.error === true) {
+            return (<h1>Ingredients can't be loaded</h1>);
+        }
+        if (this.state.ingredients === null)
+            return <Spinner />
+
         const disabledInfo = {
             ...this.state.ingredients
         };
