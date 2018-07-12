@@ -5,7 +5,7 @@ import Aux from '../../../hoc/Aux2';
 class OrderSummary extends Component {
 
     componentWillUpdate() {
-        console.log('[OrderSummary] will Update');
+//        console.log('[OrderSummary] will Update');
     }
     render() {
     const ingredientSummary= Object.keys(this.props.ingredients)
