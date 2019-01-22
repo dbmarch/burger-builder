@@ -35,6 +35,7 @@ class Checkout extends Component {
 	};
 
 	render() {
+		console.log('Price: ', this.state.totalPrice);
 		return (
 			<div>
 				<CheckoutSummary
