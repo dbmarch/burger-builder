@@ -1,41 +1,41 @@
-import React, { Component } from 'react';
-import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
-import { Route } from 'react-router-dom';
-import ContactData from '../Checkout/ContactData/ContactData';
+import React, { Component } from 'react'
+import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary'
+import { Route } from 'react-router-dom'
+import ContactData from '../Checkout/ContactData/ContactData'
 
 class Checkout extends Component {
 	state = {
 		ingredients: null,
 		totalPrice: 0,
-	};
+	}
 
 	componentWillMount() {
-		const query = new URLSearchParams(this.props.location.search);
-		const ingredients = {};
-		let price;
+		const query = new URLSearchParams(this.props.location.search)
+		const ingredients = {}
+		let price
 		for (let param of query.entries()) {
 			if (param[0] === 'price') {
-				price = param[1];
-				console.log('setting price ', price);
+				price = param[1]
+				console.log('setting price ', price)
 			} else {
-				ingredients[param[0]] = +param[1];
+				ingredients[param[0]] = +param[1]
 			}
 		}
-		this.setState({ ingredients: ingredients, totalPrice: price });
+		this.setState({ ingredients: ingredients, totalPrice: price })
 	}
 
 	checkoutCancelledHandler = () => {
-		console.log('cancel');
-		this.props.history.goBack();
-	};
+		console.log('cancel')
+		this.props.history.goBack()
+	}
 
 	checkoutContinuedHandler = () => {
-		console.log('continue');
-		this.props.history.replace('/checkout/contact-data');
-	};
+		console.log('continue')
+		this.props.history.replace('/checkout/contact-data')
+	}
 
 	render() {
-		console.log('Price: ', this.state.totalPrice);
+		console.log('Price: ', this.state.totalPrice)
 		return (
 			<div>
 				<CheckoutSummary
@@ -50,8 +50,8 @@ class Checkout extends Component {
 					)}
 				/>
 			</div>
-		);
+		)
 	}
 }
 
-export default Checkout;
+export default Checkout

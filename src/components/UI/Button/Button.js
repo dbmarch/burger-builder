@@ -1,5 +1,5 @@
-import React from 'react';
-import classes from './Button.css';
+import React from 'react'
+import classes from './Button.css'
 
 const button = props => (
 	<button
@@ -9,6 +9,6 @@ const button = props => (
 	>
 		{props.children}
 	</button>
-);
+)
 
-export default button;
+export default button
