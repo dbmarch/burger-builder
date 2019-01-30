@@ -9,15 +9,6 @@ class App extends Component {
 	state = {
 		show: true,
 	}
-
-	// used for testing.
-	// componentDidMount() {
-	//   console.log ('componentDidMount');
-	//   setTimeout (()=> {
-	//     this.setState({show: false});
-	//   },5000);
-	// }
-
 	render() {
 		return (
 			<div>

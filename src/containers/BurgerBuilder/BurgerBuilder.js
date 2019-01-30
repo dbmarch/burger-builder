@@ -5,28 +5,19 @@ import Burger from '../../components/Burger/Burger'
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
 import Modal from '../../components/UI/Modal/Modal'
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
-import axios from '../../axios-orders'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
-import * as actionTypes from '../../store/actions'
+import * as burgerBuilderActions from '../../store/actions/'
+import axios from '../../axios-orders'
 
 class BurgerBuilder extends Component {
 	state = {
 		purchasing: false,
 		loading: false,
-		error: false,
 	}
-	componentDidMount() {
-		//        console.log (this.props);
-		// axios
-		// 	.get('https://react-my-burger-7c36f.firebaseio.com/ingredients.json')
-		// 	.then(rsp => {
-		// 		console.log(rsp)
-		// 		this.setState({ ingredients: rsp.data })
-		// 	})
-		// 	.catch(error => {
-		// 		this.setState({ error: true })
-		// 	})
+
+	componentWillMount() {
+		this.props.onInitIngredients()
 	}
 
 	updatePurchaseState() {
@@ -73,9 +64,6 @@ class BurgerBuilder extends Component {
 			/>
 		)
 
-		if (this.props.loading) {
-			orderSummary = <Spinner />
-		}
 		return (
 			<Aux>
 				<Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
@@ -106,8 +94,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onIngredientAdded: ingredientName => dispatch({ type: actionTypes.ADD_INGREDIENT, ingredientName }),
-		onIngredientRemoved: ingredientName => dispatch({ type: actionTypes.REMOVE_INGREDIENT, ingredientName }),
+		onIngredientAdded: ingredientName => dispatch(burgerBuilderActions.addIngredient(ingredientName)),
+		onIngredientRemoved: ingredientName => dispatch(burgerBuilderActions.removeIngredient(ingredientName)),
+		onInitIngredients: () => dispatch(burgerBuilderActions.initIngredients()),
 	}
 }
 
