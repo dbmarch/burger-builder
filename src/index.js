@@ -2,14 +2,19 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import './index.css'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
-import reducer from './store/reducers/burgerBuilder'
+import burgerBuilderReducer from './store/reducers/burgerBuilder'
+import orderReducer from './store/reducers/order'
 import thunk from 'redux-thunk'
 
+const rootReducer = combineReducers({
+	burgerBuilder: burgerBuilderReducer,
+	order: orderReducer,
+})
 const logger = store => {
 	return next => {
 		return action => {
@@ -21,7 +26,7 @@ const logger = store => {
 	}
 }
 
-const store = createStore(reducer, composeWithDevTools(applyMiddleware(logger, thunk)))
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger, thunk)))
 
 const app = (
 	<Provider store={store}>
